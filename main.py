@@ -7,6 +7,7 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
+import math
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
 
@@ -43,7 +44,16 @@ obstacles[22] = [-1, -1]
 obstacles[23] = [-1, -1]
 obstacles[24] = [-1, -1]
 
-print(obstacles)
+workspace = [[0 for x in range(16)] for y in range(10)]
+
+for obstacle in obstacles:
+  if obstacle[0] == -1:
+    continue
+  x = math.ceil(obstacle[0]/0.305)
+  y = math.ceil(obstacle[1]/0.305)
+  workspace[y][x] = 1 
+#print(obstacles)
+print(workspace)
 
 # Write your program here.
 ev3.speaker.beep()
