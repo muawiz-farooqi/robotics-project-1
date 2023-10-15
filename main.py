@@ -43,15 +43,19 @@ obstacles[21] = [-1, -1]
 obstacles[22] = [-1, -1]
 obstacles[23] = [-1, -1]
 obstacles[24] = [-1, -1]
+#goal = [3.658, 1.829]
+#start = {0.305, 1.219};
+workspace = [[-1 for x in range(16)] for y in range(10)]
 
-workspace = [[0 for x in range(16)] for y in range(10)]
+workspace[math.ceil(1.829/0.305)][math.ceil(3.658/0.305)] = 0
+#workspace[math.ceil(1.219/0.305)][math.ceil(0.305/0.305)] = 0
 
 for obstacle in obstacles:
   if obstacle[0] == -1:
     continue
   x = math.ceil(obstacle[0]/0.305)
   y = math.ceil(obstacle[1]/0.305)
-  workspace[y][x] = 1 
+  workspace[y][x] = 1000
 #print(obstacles)
 print(workspace)
 
