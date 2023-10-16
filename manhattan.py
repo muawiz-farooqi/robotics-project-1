@@ -1,4 +1,6 @@
 # Breadth-first Manhattan distance workspace generator
+import math
+
 
 def index_2d(arr, value, indexes):
     for i in range(len(arr)):
