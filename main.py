@@ -65,6 +65,8 @@ gyro = GyroSensor(Port.S2)
 # #print(obstacles)
 
 # print(workspace)
+# bfs_manhattan(workspace)
+# print(workspace)
 
 # Write your program here.
 ev3.speaker.beep()
