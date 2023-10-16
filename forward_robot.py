@@ -5,10 +5,10 @@ def forward_robot(left_motor, right_motor):
 
   print(left_motor.angle())
   print(right_motor.angle())
-  left_motor.run(25)
-  right_motor.run(25)
 
   while True:
-    left_motor.run_target(25,720)
-    right_motor.run_target(25,720)
+    left_motor.reset_angle(0)
+    right_motor.reset_angle(0)
+    left_motor.run_target(25,720, then=Stop.BRAKE, wait=False)
+    right_motor.run_target(25,720, then=Stop.BRAKE, wait=True)
     break
