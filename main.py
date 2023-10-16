@@ -10,6 +10,8 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 from turn_robot import turn_robot
 from forward_robot import forward_robot
 
+from manhattan import *
+
 import math
 # This program requires LEGO EV3 MicroPython v2.0 or higher.
 # Click "Open user guide" on the EV3 extension tab for more information.
