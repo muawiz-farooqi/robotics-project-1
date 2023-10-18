@@ -1,4 +1,4 @@
-from project import *
+#from project import *
 import math
 
 #sort the tuples by the tile's manhattan value; choose the one with the lowest cost
