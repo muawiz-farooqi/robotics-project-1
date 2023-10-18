@@ -44,10 +44,10 @@ def findPath(workspace, startingRow, startingColumn):
 
     #run the next step function until the tile value is 0(the goal)
     while tempValue != 0:
-        potentialMoves = [("Down ", int(workspace[tempRow + 1][tempColumn]), tempRow + 1, tempColumn),#up,down,right,left
-                          ("Up   ", int(workspace[tempRow - 1][tempColumn]), tempRow - 1, tempColumn),
-                          ("Right", int(workspace[tempRow][tempColumn + 1]), tempRow, tempColumn + 1),
-                          ("Left ", int(workspace[tempRow][tempColumn - 1]), tempRow, tempColumn - 1)]
+        potentialMoves = [("Up",      int(workspace[tempRow + 1][tempColumn]), tempRow + 1, tempColumn),#up,down,right,left
+                          ("Down",    int(workspace[tempRow - 1][tempColumn]), tempRow - 1, tempColumn),
+                          ("Right",   int(workspace[tempRow][tempColumn + 1]), tempRow, tempColumn + 1),
+                          ("Left",    int(workspace[tempRow][tempColumn - 1]), tempRow, tempColumn - 1)]
 
         tempTuple = nextStep(potentialMoves)
 
