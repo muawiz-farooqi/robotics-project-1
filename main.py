@@ -7,7 +7,7 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
-from turn_robot import turn_robot
+from turn_robot import *
 from forward_robot import forward_robot
 
 from manhattan import *
@@ -20,9 +20,9 @@ import math
 
 # Create your objects here.
 ev3 = EV3Brick()
-right_motor = Motor(Port.C)
+right_motor = Motor(Port.A)
 left_motor = Motor(Port.D)
-gyro = GyroSensor(Port.S2)
+gyro = GyroSensor(Port.S3)
 
 
 MAX_OBSTACLES = 25
@@ -52,14 +52,14 @@ obstacles[21] = [-1, -1]
 obstacles[22] = [-1, -1]
 obstacles[23] = [-1, -1]
 obstacles[24] = [-1, -1]
-# goal = [3.658, 1.829]
-# start = [0.305, 1.219]
+
+# Goal and start positions
+goal = (3.658, 1.829)
+start = [0.305, 1.219]
 workspace = [[-1 for x in range(16)] for y in range(10)]
 
 #Inserting Goal
-workspace[math.ceil(1.829/0.305)][math.ceil(3.658/0.305)] = 0 
-
-#workspace[math.ceil(1.219/0.305)][math.ceil(0.305/0.305)] = 0 # Inserting Start
+workspace[math.ceil(goal[1]/0.305)][math.ceil(goal[0]/0.305)] = 0 
 
 for obstacle in obstacles:
   if obstacle[0] == -1:
@@ -76,7 +76,7 @@ print()
 for line in workspace:
   print(line)
 
-path = findPath(workspace, math.ceil(1.219/0.305), math.ceil(0.305/0.305) )
+path = findPath(workspace, math.ceil(start[1]/0.305), math.ceil(start[0]/0.305) )
 print(path)
 
 # Write your program here.
@@ -85,7 +85,7 @@ gyro.reset_angle(0)
 left_motor.reset_angle(0)
 right_motor.reset_angle(0)
 
-test_path = [('Down',1), ('Right',1), ('Up', 1)]
+test_path = [('Left',1),('Right',1)]
 test_path2 = [('Start'), 
 ('Up'), 
 ('Right'), 
@@ -103,49 +103,8 @@ test_path2 = [('Start'),
 ('Right'), 
 ('Right')]
 
-
-# turn_robot('left', gyro, left_motor, right_motor)
-# turn_robot('right', gyro, left_motor, right_motor)
-
-# for direction in test_path2:
-#   if direction == 'Start':
-#     continue
-#   print(direction)
-#   curr_angle = gyro.angle()
-#   print(curr_angle)
-#   if direction == 'Up':
-#     while(curr_angle < 86 or curr_angle > 94):
-#       if curr_angle < 86:
-#         turn_robot('left', gyro, left_motor, right_motor)
-#       elif curr_angle > 94:
-#         turn_robot('right', gyro, left_motor, right_motor)  
-#   elif direction == 'Down':
-#     while(curr_angle < -94 or curr_angle > -86)
-#       if curr_angle < -94:
-#         turn_robot('left', gyro, left_motor, right_motor) 
-#       elif curr_angle > -86:
-#         turn_robot('right', gyro, left_motor, right_motor)
-#   elif direction == 'Right':
-#     while(curr_angle < -4 or curr_angle > 4)
-#       if curr_angle < -4:
-#         turn_robot('right', gyro, left_motor, right_motor)
-#       elif curr_angle > 4:
-#         turn_robot('left', gyro, left_motor, right_motor)
-#   elif direction == 'Left':
-#     while(curr_angle < 176 or curr_angle > 4)
-#       if curr_angle < 176:
-#         turn_robot('left', gyro, left_motor, right_motor) 
-#       elif curr_angle > 184:
-#         turn_robot('right', gyro, left_motor, right_motor)
-#   curr_angle = gyro.angle()
-#   print(curr_angle)
-#   ev3.speaker.beep()
-#   print("robot moves forward...")
-#   #forward_robot(left_motor, right_motor)
-
-
-for direction in test_path:
-  break
+for direction in path:
+  # skips the 'Start' direction
   if direction[0] == 'Start':
     continue
   print(direction[0])
@@ -156,7 +115,8 @@ for direction in test_path:
       if gyro.angle() >-90:
         turn_robot('left', gyro, left_motor, right_motor, -90)
       elif gyro.angle() <-90:
-        turn_robot('right', gyro, left_motor, right_motor, -90)  
+        turn_robot('right', gyro, left_motor, right_motor, -90)
+    target_angle = -90  
   elif direction[0] == 'Down':
     while(gyro.angle() != 90):
       print(">>" + str(gyro.angle()))
@@ -164,6 +124,7 @@ for direction in test_path:
         turn_robot('left', gyro, left_motor, right_motor, 90) 
       elif gyro.angle() < 90:
         turn_robot('right', gyro, left_motor, right_motor, 90)
+    target_angle = 90
   elif direction[0] == 'Right':
     while(gyro.angle() != 0):
       print(">>" + str(gyro.angle()))
@@ -171,6 +132,7 @@ for direction in test_path:
         turn_robot('right', gyro, left_motor, right_motor, 0)
       elif gyro.angle() > 0:
         turn_robot('left', gyro, left_motor, right_motor , 0)
+    target_angle = 0
   elif direction[0] == 'Left':
     while(gyro.angle() != 180):
       print(">>" + str(gyro.angle()))
@@ -178,15 +140,22 @@ for direction in test_path:
         turn_robot('left', gyro, left_motor, right_motor, 180) 
       elif gyro.angle() < 180:
         turn_robot('right', gyro, left_motor, right_motor, 180)
+    target_angle = 180
   #ev3.speaker.beep()
-  curr_angle = gyro.angle()
+  # Checks if robot is in the right angle
+  if gyro.angle() != target_angle:
+    correct_direction(gyro, left_motor, right_motor, target_angle)
+
+
   #print("robot moves forward...")
+  # Robot moves half a square on the grid. It then checks if its still @ the right
+  # orientation. If not, it'll correct itself before moving forward another half square
+
   forward_robot(left_motor, right_motor)
-  gyro.reset_angle(curr_angle)
-  print("End of instruction: " + str(gyro.angle()))
-
-
-forward_robot(left_motor,right_motor)
-turn_robot('right', gyro, left_motor, right_motor, 90)
-turn_robot('left', gyro, left_motor, right_motor , 0)
-turn_robot('right', gyro, left_motor, right_motor, 180)
+  if gyro.angle() != target_angle:
+    correct_direction(gyro, left_motor, right_motor, target_angle)
+  forward_robot(left_motor, right_motor)
+  if gyro.angle() != target_angle:
+    correct_direction(gyro, left_motor, right_motor, target_angle)
+  
+  #print("End of instruction: " + str(gyro.angle()))
