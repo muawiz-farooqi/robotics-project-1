@@ -31,7 +31,7 @@ def findGoalTile(workspace):
 
 
 #startingColumn = (0 - 15)
-#startingRow = (0 - 9) why are there 11 rows??
+#startingRow = (0 - 9)
 def findPath(workspace, startingRow, startingColumn):
     
     initialValue = int(workspace[startingRow][startingColumn])
@@ -61,14 +61,3 @@ def findPath(workspace, startingRow, startingColumn):
 
     #return a list of tuples containing information about the path
     return path
-
-
-#############
-
-'''print_space(workspace)
-path = findPath(workspace, 0, 0)
-pathLength = len(path)
-
-for x in range(0,pathLength):
-    print(path[x])'''
-

@@ -67,41 +67,21 @@ for obstacle in obstacles:
   x = math.ceil(obstacle[0]/0.305)
   y = math.ceil(obstacle[1]/0.305)
   workspace[y][x] = 1000
-#print(obstacles)
 
 for line in reversed(workspace):
   print(line)
 bfs_manhattan(workspace)
 print()
-for line in workspace:
+for line in reversed(workspace):
   print(line)
 
 path = findPath(workspace, math.ceil(start[1]/0.305), math.ceil(start[0]/0.305) )
 print(path)
 
 # Write your program here.
-#ev3.speaker.beep()
 gyro.reset_angle(0)
 left_motor.reset_angle(0)
 right_motor.reset_angle(0)
-
-test_path = [('Left',1),('Right',1)]
-test_path2 = [('Start'), 
-('Up'), 
-('Right'), 
-('Right'), 
-('Right'), 
-('Right'), 
-('Right'), 
-('Right'), 
-('Down'), 
-('Down'), 
-('Down'), 
-('Right'), 
-('Right'), 
-('Right'), 
-('Right'), 
-('Right')]
 
 for direction in path:
   # skips the 'Start' direction
@@ -141,7 +121,7 @@ for direction in path:
       elif gyro.angle() < 180:
         turn_robot('right', gyro, left_motor, right_motor, 180)
     target_angle = 180
-  #ev3.speaker.beep()
+
   # Checks if robot is in the right angle
   if gyro.angle() != target_angle:
     correct_direction(gyro, left_motor, right_motor, target_angle)
@@ -158,4 +138,3 @@ for direction in path:
   if gyro.angle() != target_angle:
     correct_direction(gyro, left_motor, right_motor, target_angle)
   
-  #print("End of instruction: " + str(gyro.angle()))

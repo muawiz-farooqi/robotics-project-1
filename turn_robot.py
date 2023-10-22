@@ -35,4 +35,5 @@ def correct_direction(gyro, left_motor, right_motor, target_angle):
     left_motor.brake()
     right_motor.brake()
   if gyro.angle() != target_angle:
+    # Calls function again if orientation is still wrong
     correct_direction(gyro, left_motor, right_motor, target_angle)
